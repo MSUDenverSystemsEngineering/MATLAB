@@ -152,7 +152,8 @@ Try {
 		If ( Test-Path "$envProgramFiles\MATLAB\R2020a") {
 			Get-ChildItem -Path "$envProgramFiles\MATLAB\R2020a" -Recurse | Remove-Item -force -recurse
 			Remove-Item "$envProgramFiles\MATLAB\R2020a" -Force
-
+		}
+		
 		Copy-item -Path "$dirSupportFiles\license.dat" -Destination "$envProgramFiles\MATLAB\R2020a\license.dat"
 
 		##*===============================================
