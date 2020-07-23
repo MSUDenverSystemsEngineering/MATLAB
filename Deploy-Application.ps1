@@ -146,7 +146,7 @@ Try {
 		}
 		## Adds path to put license file into before install
 		If (-not (Test-Path "$envProgramFiles\MATLAB\R2020a")) {
-			New-Item -Path "$envProgramFiles\MATLAB\R2020a" -Item-Type "directory"
+			New-Item -Path "$envProgramFiles\MATLAB\R2020a" -ItemType "directory"
 		}
 
 		Copy-Item -Path "$dirSupportFiles\license.dat" -Destination "$envProgramFiles\MATLAB\R2020a\license.dat"
