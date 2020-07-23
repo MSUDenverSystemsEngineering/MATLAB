@@ -144,18 +144,19 @@ Try {
 			Get-ChildItem -Path "$envProgramFiles\MATLAB\R2019a" -Recurse | Remove-Item -force -recurse
 			Remove-Item "$envProgramFiles\MATLAB\R2019a" -Force
 		}
-		## Adds path to put license file into before install
-		If (-not (Test-Path "$envProgramFiles\MATLAB\R2020a")) {
-			New-Item -Path "$envProgramFiles\MATLAB\R2020a" -ItemType "directory"
-		}
-
-		Copy-Item -Path "$dirSupportFiles\license.dat" -Destination "$envProgramFiles\MATLAB\R2020a\license.dat"
-
+		
 		## Cleans up a 2020 install that did not complete so it can reinstall
 		If ( Test-Path "$envProgramFiles\MATLAB\R2020a") {
 			Get-ChildItem -Path "$envProgramFiles\MATLAB\R2020a" -Recurse | Remove-Item -force -recurse
 			Remove-Item "$envProgramFiles\MATLAB\R2020a" -Force
 		}
+
+		## Adds path to put license file into before install
+		If (-not (Test-Path "$envProgramFiles\MATLAB\R2020a")) {
+			New-Item -Path "$envProgramFiles\MATLAB\R2020a" -ItemType "directory"
+		}
+		
+		Copy-Item -Path "$dirSupportFiles\license.dat" -Destination "$envProgramFiles\MATLAB\R2020a\license.dat"
 
 		##*===============================================
 		##* INSTALLATION
