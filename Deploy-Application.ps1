@@ -169,7 +169,7 @@ Try {
 		}
 
 		## <Perform Installation tasks here>
-		$exitCode = Execute-Process -Path "$dirFiles\setup.exe" -Parameters "-inputFile `$dirSupportFiles\installer_input.txt` -activationPropertiesFile `$dirSupportFiles\activate.ini`" -WaitForMsiExec -WindowStyle "Hidden" -PassThru
+		$exitCode = Execute-Process -Path "$dirFiles\setup.exe" -Parameters "-inputFile `"$dirSupportFiles\installer_input.txt`" -activationPropertiesFile `"$dirSupportFiles\activate.ini`"" -WindowStyle "Hidden" -PassThru
 		If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
 		##*===============================================
