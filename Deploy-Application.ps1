@@ -198,7 +198,7 @@ Try {
 		Show-InstallationWelcome -CloseApps 'matlab,matlabstartupaccelerator' -CloseAppsCountdown 60
 
 		## Show Progress Message (with the default message)
-		Show-InstallationProgress -StatusMessage "Uninstalling Application $installTitle. Please Wait..."
+		Show-InstallationProgress
 
 		## <Perform Pre-Uninstallation tasks here>
 
