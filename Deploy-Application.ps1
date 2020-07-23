@@ -146,8 +146,11 @@ Try {
 		}
 		## Adds path to put license file into before install
 		If (-not (Test-Path "$envProgramFiles\MATLAB\R2020a")) {
-			New-Folder -Path "$envProgramFiles\MATLAB\R2020a"
+			New-Item -Path "$envProgramFiles\MATLAB\R2020a" -Item-Type "directory"
 		}
+
+		Copy-Item -Path "$dirSupportFiles\license.dat" -Destination "$envProgramFiles\MATLAB\R2020a\license.dat"
+
 		## Cleans up a 2020 install that did not complete so it can reinstall
 		If ( Test-Path "$envProgramFiles\MATLAB\R2020a") {
 			Get-ChildItem -Path "$envProgramFiles\MATLAB\R2020a" -Recurse | Remove-Item -force -recurse
@@ -175,7 +178,6 @@ Try {
 		[string]$installPhase = 'Post-Installation'
 
 		## <Perform Post-Installation tasks here>
-		Copy-item -Path "$dirSupportFiles\license.dat" -Destination "$envProgramFiles\MATLAB\R2020a\license.dat"
 		Remove-File -Path "$envProgramData\Microsoft\Windows\Start Menu\Programs\MATLAB R2020a\Activate MATLAB R2020a.lnk"
 		Remove-File -Path "$envProgramData\Microsoft\Windows\Start Menu\Programs\MATLAB R2020a\Deactivate MATLAB R2020a.lnk"
 		Execute-Process -Path "$envSystem32Directory\netsh.exe" -Parameters "advfirewall firewall add rule name=`"MATLAB R2020a`" dir=in action=allow program=`"C:\program files\matlab\r2020a\bin\win64\matlab.exe`" description=`"MATLAB R2020a`" enable=yes profile=any protocol=tcp edge=deferuser" -WindowStyle "Hidden"
