@@ -220,7 +220,11 @@ Try {
 		$exitCode = Execute-Process -Path "$envProgramFiles\MATLAB\R2020a\uninstall\bin\win64\uninstall.exe" -Parameters "-inputFile `"$dirSupportFiles\uninstaller_input.txt`"" -PassThru
 		If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { 
                 $mainExitCode = $exitCode.ExitCode 
-        }
+		}
+		If ( Test-Path "$envProgramFiles\MATLAB\R2020a") {
+				Get-ChildItem -Path "$envProgramFiles\MATLAB\R2020a" -Recurse | Remove-Item -force -recurse
+				Remove-Item "$envProgramFiles\MATLAB\R2020a" -Force
+			}
 
 		##*===============================================
 		##* POST-UNINSTALLATION
