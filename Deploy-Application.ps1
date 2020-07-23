@@ -124,7 +124,7 @@ Try {
 		Show-InstallationWelcome -CloseApps 'matlab,matlabstartupaccelerator' -CheckDiskSpace -PersistPrompt
 
 		## Show Progress Message (with the default message)
-		Show-InstallationProgress -StatusMessage "Installing Application $installTitle. Please Wait..."
+		Show-InstallationProgress
 
 		## <Perform Pre-Installation tasks here>
 		## Uninstalls previous versions
