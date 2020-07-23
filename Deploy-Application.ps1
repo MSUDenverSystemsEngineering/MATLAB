@@ -145,8 +145,8 @@ Try {
 			Remove-Item "$envProgramFiles\MATLAB\R2019a" -Force
 		}
 		## Adds path to put license file into before install
-		If (-not (Test-Path "$envProgramFiles\MATLAB\R2019a")) {
-			New-Folder -Path "$envProgramFiles\MATLAB\R2019a"
+		If (-not (Test-Path "$envProgramFiles\MATLAB\R2020a")) {
+			New-Folder -Path "$envProgramFiles\MATLAB\R2020a"
 		}
 		## Cleans up a 2020 install that did not complete so it can reinstall
 		If ( Test-Path "$envProgramFiles\MATLAB\R2020a") {
