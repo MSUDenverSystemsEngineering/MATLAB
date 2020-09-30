@@ -67,12 +67,12 @@ Try {
 	## Variables: Application
 	[string]$appVendor = 'MathWorks'
 	[string]$appName = 'MATLAB'
-	[string]$appVersion = 'R2020a'
+	[string]$appVersion = 'R2020b'
 	[string]$appArch = 'x64'
 	[string]$appLang = 'EN'
 	[string]$appRevision = '01'
 	[string]$appScriptVersion = '1.0.0'
-	[string]$appScriptDate = '28/03/2020'
+	[string]$appScriptDate = '09/29/2020'
 	[string]$appScriptAuthor = 'James Hardy'
 	##*===============================================
 	## Variables: Install Titles (Only set here to override defaults set by the toolkit)
@@ -128,35 +128,19 @@ Try {
 
 		## <Perform Pre-Installation tasks here>
 		## Uninstalls previous versions
-		If ( Test-Path "$envProgramFiles\MATLAB\R2017a") {
-			Execute-Process -Path "$envProgramFiles\MATLAB\R2017a\uninstall\bin\win64\uninstall.exe" -Parameters "-inputFile `"$dirSupportFiles\2017uninstaller_input.txt`"" -PassThru
-			Get-ChildItem -Path "$envProgramFiles\MATLAB\R2017a" -Recurse | Remove-Item -force -recurse
-			Remove-Item "$envProgramFiles\MATLAB\R2017a" -Force
-		}
-		If ( Test-Path "$envProgramFiles\MATLAB\R2018a") {
-			Execute-Process -Path "$envProgramFiles\MATLAB\R2018a\uninstall\bin\win64\uninstall.exe" -Parameters "-inputFile `"$dirSupportFiles\2018uninstaller_input.txt`"" -PassThru
-			Get-ChildItem -Path "$envProgramFiles\MATLAB\R2018a" -Recurse | Remove-Item -force -recurse
-			Remove-Item "$envProgramFiles\MATLAB\R2018a" -Force
+		If ( Test-Path "$envProgramFiles\MATLAB\") {
+			Execute-Process -Path "$dirSupportFiles\uninstall.exe" -Parameters "-inputFile `"$dirSupportFiles\uninstaller_input.txt`"" -PassThru
+			Get-ChildItem -Path "$envProgramFiles\MATLAB\" -Recurse | Remove-Item -force -recurse
+			Remove-Item "$envProgramFiles\MATLAB\" -Force
 		}
 
-		If ( Test-Path "$envProgramFiles\MATLAB\R2019a") {
-			Execute-Process -Path "$envProgramFiles\MATLAB\R2019a\uninstall\bin\win64\uninstall.exe" -Parameters "-inputFile `"$dirSupportFiles\2019uninstaller_input.txt`"" -PassThru
-			Get-ChildItem -Path "$envProgramFiles\MATLAB\R2019a" -Recurse | Remove-Item -force -recurse
-			Remove-Item "$envProgramFiles\MATLAB\R2019a" -Force
-		}
-		
-		## Cleans up a 2020 install that did not complete so it can reinstall
-		##If ( Test-Path "$envProgramFiles\MATLAB\R2020a") {
-		##	Get-ChildItem -Path "$envProgramFiles\MATLAB\R2020a" -Recurse | Remove-Item -force -recurse
-		##	Remove-Item "$envProgramFiles\MATLAB\R2020a" -Force
-		##}
 
 		## Adds path to put license file into before install
-		If (-not (Test-Path "$envProgramFiles\MATLAB\R2020a")) {
-			New-Item -Path "$envProgramFiles\MATLAB\R2020a" -ItemType "directory"
+		If (-not (Test-Path "$envProgramFiles\MATLAB\R2020b")) {
+			New-Item -Path "$envProgramFiles\MATLAB\R2020b" -ItemType "directory"
 		}
 
-		Copy-Item -Path "$dirSupportFiles\license.dat" -Destination "$envProgramFiles\MATLAB\R2020a\license.dat"
+		Copy-Item -Path "$dirSupportFiles\license.dat" -Destination "$envProgramFiles\MATLAB\R2020b\license.dat"
 
 		##*===============================================
 		##* INSTALLATION
@@ -170,7 +154,7 @@ Try {
 		}
 
 		## <Perform Installation tasks here>
-		$exitCode = Execute-Process -Path "$dirFiles\setup.exe" -Parameters "-inputFile `"$dirSupportFiles\installer_input.txt`" -activationPropertiesFile `"$dirSupportFiles\activate.ini`"" -WindowStyle "Hidden" -PassThru
+		$exitCode = Execute-Process -Path "$dirFiles\setup.exe" -Parameters "-inputFile `"$dirFiles\installer_input.txt`" -activationPropertiesFile `"$dirFiles\activate.ini`"" -WindowStyle "Hidden" -PassThru
 		If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
 		##*===============================================
@@ -179,10 +163,10 @@ Try {
 		[string]$installPhase = 'Post-Installation'
 
 		## <Perform Post-Installation tasks here>
-		Remove-File -Path "$envProgramData\Microsoft\Windows\Start Menu\Programs\MATLAB R2020a\Activate MATLAB R2020a.lnk"
-		Remove-File -Path "$envProgramData\Microsoft\Windows\Start Menu\Programs\MATLAB R2020a\Deactivate MATLAB R2020a.lnk"
-		Execute-Process -Path "$envSystem32Directory\netsh.exe" -Parameters "advfirewall firewall add rule name=`"MATLAB R2020a`" dir=in action=allow program=`"C:\program files\matlab\r2020a\bin\win64\matlab.exe`" description=`"MATLAB R2020a`" enable=yes profile=any protocol=tcp edge=deferuser" -WindowStyle "Hidden"
-		Execute-Process -Path "$envSystem32Directory\netsh.exe" -Parameters "advfirewall firewall add rule name=`"MATLAB R2020a`" dir=in action=allow program=`"C:\program files\matlab\r2020a\bin\win64\matlab.exe`" description=`"MATLAB R2020a`" enable=yes profile=any protocol=udp edge=deferuser" -WindowStyle "Hidden"
+		Remove-File -Path "$envProgramData\Microsoft\Windows\Start Menu\Programs\MATLAB r2020b\Activate MATLAB r2020b.lnk"
+		Remove-File -Path "$envProgramData\Microsoft\Windows\Start Menu\Programs\MATLAB r2020b\Deactivate MATLAB r2020b.lnk"
+		Execute-Process -Path "$envSystem32Directory\netsh.exe" -Parameters "advfirewall firewall add rule name=`"MATLAB R2020b`" dir=in action=allow program=`"C:\program files\matlab\r2020b\bin\win64\matlab.exe`" description=`"MATLAB r2020b`" enable=yes profile=any protocol=tcp edge=deferuser" -WindowStyle "Hidden"
+		Execute-Process -Path "$envSystem32Directory\netsh.exe" -Parameters "advfirewall firewall add rule name=`"MATLAB R2020b`" dir=in action=allow program=`"C:\program files\matlab\r2020b\bin\win64\matlab.exe`" description=`"MATLAB r2020b`" enable=yes profile=any protocol=udp edge=deferuser" -WindowStyle "Hidden"
 
 		## Display a message at the end of the install
 		If (-not $useDefaultMsi) {
@@ -217,13 +201,13 @@ Try {
 		}
 
 		# <Perform Uninstallation tasks here>
-		$exitCode = Execute-Process -Path "$envProgramFiles\MATLAB\R2020a\uninstall\bin\win64\uninstall.exe" -Parameters "-inputFile `"$dirSupportFiles\uninstaller_input.txt`"" -PassThru
+		$exitCode = Execute-Process -Path "$envProgramFiles\MATLAB\r2020b\uninstall\bin\win64\uninstall.exe" -Parameters "-inputFile `"$dirSupportFiles\uninstaller_input.txt`"" -PassThru
 		If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { 
                 $mainExitCode = $exitCode.ExitCode 
 		}
-		If ( Test-Path "$envProgramFiles\MATLAB\R2020a") {
-				Get-ChildItem -Path "$envProgramFiles\MATLAB\R2020a" -Recurse | Remove-Item -force -recurse
-				Remove-Item "$envProgramFiles\MATLAB\R2020a" -Force
+		If ( Test-Path "$envProgramFiles\MATLAB\r2020b") {
+				Get-ChildItem -Path "$envProgramFiles\MATLAB\r2020b" -Recurse | Remove-Item -force -recurse
+				Remove-Item "$envProgramFiles\MATLAB\r2020b" -Force
 			}
 
 		##*===============================================
@@ -232,8 +216,8 @@ Try {
 		[string]$installPhase = 'Post-Uninstallation'
 
 		## <Perform Post-Uninstallation tasks here>
-		Get-ChildItem -Path "$envProgramFiles\MATLAB\R2020a" -Recurse | Remove-Item -force -recurse
-		Remove-Item "$envProgramFiles\MATLAB\R2020a" -Force
+		Get-ChildItem -Path "$envProgramFiles\MATLAB\r2020b" -Recurse | Remove-Item -force -recurse
+		Remove-Item "$envProgramFiles\MATLAB\r2020b" -Force
 
 
 	}
