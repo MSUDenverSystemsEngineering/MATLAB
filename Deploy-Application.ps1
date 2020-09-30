@@ -127,8 +127,10 @@ Try {
 		Show-InstallationProgress
 
 		## <Perform Pre-Installation tasks here>
+
 		## Uninstalls previous versions
 		If ( Test-Path "$envProgramFiles\MATLAB\") {
+			#Different uninstaller input file that identifies a previous version log file
 			Execute-Process -Path "$dirSupportFiles\uninstall.exe" -Parameters "-inputFile `"$dirSupportFiles\uninstaller_input.txt`"" -PassThru
 			Get-ChildItem -Path "$envProgramFiles\MATLAB\" -Recurse | Remove-Item -force -recurse
 			Remove-Item "$envProgramFiles\MATLAB\" -Force
@@ -201,7 +203,7 @@ Try {
 		}
 
 		# <Perform Uninstallation tasks here>
-		$exitCode = Execute-Process -Path "$envProgramFiles\MATLAB\r2020b\uninstall\bin\win64\uninstall.exe" -Parameters "-inputFile `"$dirSupportFiles\uninstaller_input.txt`"" -PassThru
+		$exitCode = Execute-Process -Path "$envProgramFiles\MATLAB\r2020b\uninstall\bin\win64\uninstall.exe" -Parameters "-inputFile `"$dirFiles\uninstaller_input.txt`"" -PassThru
 		If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { 
                 $mainExitCode = $exitCode.ExitCode 
 		}
