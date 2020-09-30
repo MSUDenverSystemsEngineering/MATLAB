@@ -131,7 +131,7 @@ Try {
 		## Uninstalls previous versions
 		If ( Test-Path "$envProgramFiles\MATLAB\") {
 			#Different uninstaller input file that identifies a previous version log file
-			Execute-Process -Path "$dirSupportFiles\uninstall.exe" -Parameters "-inputFile `"$dirSupportFiles\uninstaller_input.txt`"" -PassThru
+			Execute-Process -Path "$dirSupportFiles\uninstall\uninstall.exe" -Parameters "-inputFile `"$dirSupportFiles\uninstaller_input.txt`"" -PassThru
 			Get-ChildItem -Path "$envProgramFiles\MATLAB\" -Recurse | Remove-Item -force -recurse
 			Remove-Item "$envProgramFiles\MATLAB\" -Force
 		}
