@@ -129,13 +129,25 @@ Try {
 		## <Perform Pre-Installation tasks here>
 
 		## Uninstalls previous versions
-		If ( Test-Path "$envProgramFiles\MATLAB\") {
+		If ( Test-Path "$envProgramFiles\MATLAB\R2019a") {
 			#Different uninstaller input file that identifies a previous version log file
-			Execute-Process -Path "$dirSupportFiles\uninstall\uninstall.exe" -Parameters "-inputFile `"$dirSupportFiles\uninstaller_input.txt`"" -PassThru
+			Execute-Process -Path "$envProgramFiles\MATLAB\R2019a\uninstall\bin\win64\uninstall.exe" -Parameters "-inputFile `"$dirSupportFiles\uninstaller_input.txt`"" -PassThru
 			Get-ChildItem -Path "$envProgramFiles\MATLAB\" -Recurse | Remove-Item -force -recurse
 			Remove-Item "$envProgramFiles\MATLAB\" -Force
 		}
 
+		If ( Test-Path "$envProgramFiles\MATLAB\2020a") {
+			#Different uninstaller input file that identifies a previous version log file
+			Execute-Process -Path "$envProgramFiles\MATLAB\R2020a\uninstall\bin\win64\uninstall.exe" -Parameters "-inputFile `"$dirSupportFiles\uninstaller_input.txt`"" -PassThru
+			Get-ChildItem -Path "$envProgramFiles\MATLAB\" -Recurse | Remove-Item -force -recurse
+			Remove-Item "$envProgramFiles\MATLAB\" -Force
+		}
+
+		## Cleans up a 2020b install that did not complete so it can reinstall
+		If ( Test-Path "$envProgramFiles\MATLAB\R2020b") {
+			Get-ChildItem -Path "$envProgramFiles\MATLAB\R2020b" -Recurse | Remove-Item -force -recurse
+			Remove-Item "$envProgramFiles\MATLAB\R2020b" -Force
+		}
 
 		## Adds path to put license file into before install
 		If (-not (Test-Path "$envProgramFiles\MATLAB\R2020b")) {
