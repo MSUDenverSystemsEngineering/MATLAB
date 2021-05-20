@@ -161,7 +161,7 @@ Try {
 		}
 
 		## <Perform Installation tasks here>
-		$exitCode = Execute-Process -Path "$dirFiles\setup.exe" -Parameters "-inputFile `"$dirSupportFiles\installer_input.txt`" -activationPropertiesFile `"$dirFiles\activate.ini`"" -WindowStyle "Hidden" -PassThru
+		$exitCode = Execute-Process -Path "$dirFiles\setup.exe" -Parameters "-inputFile `"$dirSupportFiles\installer_input.txt`" -activationPropertiesFile `"$dirSupportFiles\activate.ini`"" -WindowStyle "Hidden" -PassThru
 		If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
 		##*===============================================
@@ -170,8 +170,8 @@ Try {
 		[string]$installPhase = 'Post-Installation'
 
 		## <Perform Post-Installation tasks here>
-		Remove-File -Path "$envProgramData\Microsoft\Windows\Start Menu\Programs\MATLAB r2021a\Activate MATLAB r2021a.lnk"
-		Remove-File -Path "$envProgramData\Microsoft\Windows\Start Menu\Programs\MATLAB r2021a\Deactivate MATLAB r2021a.lnk"
+		##Remove-File -Path "$envProgramData\Microsoft\Windows\Start Menu\Programs\MATLAB r2021a\Activate MATLAB r2021a.lnk"
+		##Remove-File -Path "$envProgramData\Microsoft\Windows\Start Menu\Programs\MATLAB r2021a\Deactivate MATLAB r2021a.lnk"
 		Execute-Process -Path "$envSystem32Directory\netsh.exe" -Parameters "advfirewall firewall add rule name=`"MATLAB R2021a`" dir=in action=allow program=`"C:\program files\matlab\r2021a\bin\win64\matlab.exe`" description=`"MATLAB r2021a`" enable=yes profile=any protocol=tcp edge=deferuser" -WindowStyle "Hidden"
 		Execute-Process -Path "$envSystem32Directory\netsh.exe" -Parameters "advfirewall firewall add rule name=`"MATLAB R2021a`" dir=in action=allow program=`"C:\program files\matlab\r2021a\bin\win64\matlab.exe`" description=`"MATLAB r2021a`" enable=yes profile=any protocol=udp edge=deferuser" -WindowStyle "Hidden"
 
