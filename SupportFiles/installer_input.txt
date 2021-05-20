@@ -96,7 +96,7 @@ outputFile=C:\Windows\Logs\Software\matlabr2021a_install.log
 ## Set mode value to either interactive, silent, or automated and
 ## uncomment the line.
 
-mode=automated
+mode=silent
 
 ## SPECIFY LENGTH OF TIME DIALOG BOXES ARE DISPLAYED
 ##
