@@ -51,7 +51,7 @@ destinationFolder=C:\Program Files\MATLAB\R2021a
 ## uncomment the line.
 ##
 
-fileInstallationKey=15515-64423-36128-62621-12280-18805-30571
+fileInstallationKey=50423-30310-53190-11047-30941-55209-54919
 
 ##
 ## ACCEPT LICENSE AGREEMENT
