@@ -1,4 +1,4 @@
-﻿##################################################################
+##################################################################
 ##
 ## Use this file to specify parameters required by the installer at runtime.
 ##
@@ -16,31 +16,22 @@
 ##    to specify the name of your installer initialization file.
 ##
 ##    (Windows) setup.exe -inputFile <file_name>
-##    (Mac/Unix) install -inputFile <file_name>
-##
-## NOTE:
-##    If you want to run the activation application in silent
-##    mode immediately after the installer completes, you must create
-##    an activation initialization file and specify its name as the
-##    value of the activationPropertiesFile= option. You can also
-##    pass the name of the activation initialization file to the
-##    installer using the -activationPropertiesFile command line
-##    option.
+##    (Linux/macOS) install -inputFile <file_name>
 ##
 ##################################################################
 ##
 ##
 ## SPECIFY INSTALLATION FOLDER
-##
+## 
 ## Example:
 ##        (Windows) destinationFolder=C:\Program Files\MATLAB\RXXXX
-##        (Unix) destinationFolder=/usr/local/RXXXX
-##        (Mac) destinationFolder=/Applications
+##        (Linux) destinationFolder=/usr/local/RXXXX
+##        (macOS) destinationFolder=/Applications
 ##
 ## Set the desired value for destinationFolder and
 ## uncomment the line.
 
-destinationFolder=C:\Program Files\MATLAB\R2021a
+destinationFolder=C:\Program Files\MATLAB\R2022a
 
 ##
 ## SPECIFY FILE INSTALLATION KEY
@@ -51,7 +42,7 @@ destinationFolder=C:\Program Files\MATLAB\R2021a
 ## uncomment the line.
 ##
 
-fileInstallationKey=50423-30310-53190-11047-30941-55209-54919
+fileInstallationKey=22747-41256-22001-55006-32237-28800-20782 
 
 ##
 ## ACCEPT LICENSE AGREEMENT
@@ -75,98 +66,56 @@ agreeToLicense=yes
 ##
 ## Example:
 ##            (Windows) outputFile=C:\TEMP\mathworks_<user_name>.log
-##            (Unix/Mac) outputFile=/tmp/mathworks_<user_name>.log
+##            (Linux/macOS) outputFile=/tmp/mathworks_<user_name>.log
 ##
 ## Set the desired value for outputFile and
 ## uncomment the line.
 
-outputFile=C:\Windows\Logs\Software\matlabr2021a_install.log
+outputFile=C:\Windows\Logs\Software\matlabr2022a_install.log
 
-## SPECIFY INSTALLER MODE
 ##
-## interactive: Run the installer GUI, waiting for user input on all
-##              dialog boxes.
+## Enable Login Named User licensing
 ##
-## silent:      Run the installer without displaying the GUI.
+## Set to Yes to enable use of a Login Named User license for all users of this MATLAB installation
+## Users must log in to their MathWorks Account when MATLAB starts.
 ##
-## automated:   Run the installer GUI, displaying all dialog boxes, but only
-##              waiting for user input on dialogs that are missing required
-##              input.
+## Example: enableLNU=yes
 ##
-## Set mode value to either interactive, silent, or automated and
-## uncomment the line.
+## NOTE: This flag is valid in silent installations only.
 
-mode=silent
+# enableLNU=yes
 
-## SPECIFY LENGTH OF TIME DIALOG BOXES ARE DISPLAYED
 ##
-## Specify how long the installer dialog boxes are displayed, in milliseconds.
+## IMPROVE MATLAB
 ##
-## NOTE: Use this value only if you set the installer mode to automated.
-##
-## By default, the dialog boxes display on the screen for one second.
-##
-## Example: (To specify a value of 1 second.) automatedModeTimeout=1000
-##
-## Set the desired value for automatedModeTimeout and
-## uncomment the line.
+## Improve MATLAB by sending user experience information to MathWorks.
+## Your participation ensures that you are represented and helps us design
+## better products. You can opt in or out of this service either during
+## installation or by going to MATLAB preferences.
+## https://www.mathworks.com/support/faq/user_experience_information_faq.html
 
-# automatedModeTimeout=
-
-## SPECIFY ACTIVATION PROPERTIES FILE (For non-network license types only)
-##
-## Enter the path to an existing file that contains properties to configure
-## the activation process.
-
-# activationPropertiesFile=
+improveMATLAB=yes
 
 ########## Begin: Options for Network License Types #########
 ##
 ## SPECIFY PATH TO LICENSE FILE (Required for network license types only)
 ##
-## This value is required when installing either the License Manager or when
-## installing as a Network End-User
+## This value is required when installing as a Network End-User
 ## Example:
 ##            (Windows) licensePath=C:\TEMP\license.dat
-##            (Unix) licensePath=/tmp/license.dat
+##            (Linux) licensePath=/tmp/license.dat
 ## Set the desired value for licensePath and
 ## uncomment the line.
 
-licensePath=C:\Program Files\MATLAB\R2021a\license.dat
-
-## CHOOSE TO INSTALL LICENSE MANAGER (For network license types only)
-##
-## Installs license manager files to disk.
-##
-## NOTE: You only need to install the license manager files
-## on your license server.
-##
-## Set lmgrFiles value to true or false and
-## uncomment the line.
-
-lmgrFiles=false
-
-## INSTALL LICENSE MANAGER AS A SERVICE (For network license types only)
-##
-## Configure the license manager as a service on Windows.
-##
-## NOTE: Not applicable for Unix or Mac.
-##
-## NOTE: The lmgr_files option (set in previous step) must also be set to true.
-##
-## Set lmgrService value to true or false and
-## uncomment the line.
-
-lmgrService=false
+licensePath=C:\Program Files\MATLAB\R2022a\license.dat
 
 ########## End: Options for Network License Types #########
 
 
-
 ################# Begin - Windows Only Options ################
-##
+## 
 ## CHOOSE TO SET FILE ASSOCIATIONS
-##
+## 
 ## Set to true if you want the installer to associate file types used by MathWorks
 ## products to this version of MATLAB, or false if you do not want the installer to
 ## associate MathWorks file types with this version of MATLAB.
@@ -184,6 +133,8 @@ setFileAssoc=true
 ## Set to true if you would like the installer to create a desktop shortcut icon
 ## when MATLAB is installed or false if you don't want the shortcut created.
 ##
+## Default value is false.
+##
 ## Set desktopShortcut value to true or false and
 ## uncomment the line.
 
@@ -194,6 +145,8 @@ desktopShortcut=false
 ## Set to true if you would like the installer to create a Start Menu shortcut
 ## icon when MATLAB is installed or false if you don't want the shortcut created.
 ##
+## Default value is true.
+##
 ## Set startMenuShortcut value to true or false and
 ## uncomment the line.
 
@@ -202,7 +155,7 @@ startMenuShortcut=true
 ## CREATE a MATLAB Startup Accelerator task
 ##
 ## The MATLAB Startup Accelerator installer creates a
-## system task to preload MATLAB into the system’s cache
+## system task to preload MATLAB into the system's cache
 ## for faster startup.
 ##
 ## NOTE: By default, a MATLAB Startup Accelerator task will
@@ -216,21 +169,7 @@ startMenuShortcut=true
 
 createAccelTask=false
 
-## Enable Login Named User  licensing
-##
-## Set to Yes to enable use of a Login Named User license for all users of this MATLAB installation
-## Users must log in to their MathWorks Account when MATLAB starts.
-##
-## Example: enableLNU=yes
-##
-## NOTE: This flag is valid in silent installations only.
-
-# enableLNU=yes
-
-
-
 ################ End - Windows Only Options ################
-
 
 ## SPECIFY PRODUCTS YOU WANT TO INSTALL
 ##
@@ -241,7 +180,7 @@ createAccelTask=false
 ## Note:
 ## 1. To automatically install all your licensed products, do not edit
 ##    any lines in this section.
-##
+## 
 ## 2. To install a specific product or a subset of products for
 ##    which you are licensed, uncomment the line for the product(s) you want
 ##    to install.
@@ -254,22 +193,26 @@ createAccelTask=false
 #product.Audio_Toolbox
 #product.Automated_Driving_Toolbox
 #product.Bioinformatics_Toolbox
+#product.Bluetooth_Toolbox
 #product.Communications_Toolbox
 #product.Computer_Vision_Toolbox
 #product.Control_System_Toolbox
 #product.Curve_Fitting_Toolbox
+#product.DDS_Blockset
 #product.DO_Qualification_Kit
+#product.DSP_HDL_Toolbox
 #product.DSP_System_Toolbox
 #product.Data_Acquisition_Toolbox
 #product.Database_Toolbox
 #product.Datafeed_Toolbox
+#product.Deep_Learning_HDL_Toolbox
 #product.Deep_Learning_Toolbox
 #product.Econometrics_Toolbox
 #product.Embedded_Coder
 #product.Filter_Design_HDL_Coder
 #product.Financial_Instruments_Toolbox
 #product.Financial_Toolbox
-#product.Fixed_Point_Designer
+#product.Fixed-Point_Designer
 #product.Fuzzy_Logic_Toolbox
 #product.GPU_Coder
 #product.Global_Optimization_Toolbox
@@ -278,9 +221,10 @@ createAccelTask=false
 #product.IEC_Certification_Kit
 #product.Image_Acquisition_Toolbox
 #product.Image_Processing_Toolbox
+#product.Industrial_Communication_Toolbox
 #product.Instrument_Control_Toolbox
-#product.LTE_HDL_Toolbox
 #product.LTE_Toolbox
+#product.Lidar_Toolbox
 #product.MATLAB
 #product.MATLAB_Coder
 #product.MATLAB_Compiler
@@ -288,11 +232,13 @@ createAccelTask=false
 #product.MATLAB_Parallel_Server
 #product.MATLAB_Production_Server
 #product.MATLAB_Report_Generator
+#product.MATLAB_Web_App_Server
 #product.Mapping_Toolbox
-#product.Mixed_Signal_Blockset
+#product.Mixed-Signal_Blockset
 #product.Model_Predictive_Control_Toolbox
-#product.Model_Based_Calibration_Toolbox
-#product.OPC_Toolbox
+#product.Model-Based_Calibration_Toolbox
+#product.Motor_Control_Blockset
+#product.Navigation_Toolbox
 #product.Optimization_Toolbox
 #product.Parallel_Computing_Toolbox
 #product.Partial_Differential_Equation_Toolbox
@@ -304,13 +250,19 @@ createAccelTask=false
 #product.Powertrain_Blockset
 #product.Predictive_Maintenance_Toolbox
 #product.RF_Blockset
+#product.RF_PCB_Toolbox
 #product.RF_Toolbox
+#product.ROS_Toolbox
+#product.Radar_Toolbox
 #product.Reinforcement_Learning_Toolbox
+#product.Requirements_Toolbox
 #product.Risk_Management_Toolbox
 #product.Robotics_System_Toolbox
 #product.Robust_Control_Toolbox
+#product.Satellite_Communications_Toolbox
 #product.Sensor_Fusion_and_Tracking_Toolbox
 #product.SerDes_Toolbox
+#product.Signal_Integrity_Toolbox
 #product.Signal_Processing_Toolbox
 #product.SimBiology
 #product.SimEvents
@@ -324,15 +276,15 @@ createAccelTask=false
 #product.Simulink_Check
 #product.Simulink_Code_Inspector
 #product.Simulink_Coder
+#product.Simulink_Compiler
 #product.Simulink_Control_Design
 #product.Simulink_Coverage
 #product.Simulink_Design_Optimization
 #product.Simulink_Design_Verifier
-#product.Simulink_Desktop_Real_Time
+#product.Simulink_Desktop_Real-Time
 #product.Simulink_PLC_Coder
-#product.Simulink_Real_Time
+#product.Simulink_Real-Time
 #product.Simulink_Report_Generator
-#product.Simulink_Requirements
 #product.Simulink_Test
 #product.SoC_Blockset
 #product.Spreadsheet_Link
@@ -342,9 +294,11 @@ createAccelTask=false
 #product.System_Composer
 #product.System_Identification_Toolbox
 #product.Text_Analytics_Toolbox
-#product.Trading_Toolbox
+#product.UAV_Toolbox
 #product.Vehicle_Dynamics_Blockset
 #product.Vehicle_Network_Toolbox
 #product.Vision_HDL_Toolbox
 #product.WLAN_Toolbox
 #product.Wavelet_Toolbox
+#product.Wireless_HDL_Toolbox
+#product.Wireless_Testbench
