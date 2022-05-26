@@ -139,23 +139,31 @@ Try {
 				Write-Log -Message "Uninstall string:$uninstallerString" -Source 'Pre-Installation' -LogType 'CMTrace'
 				Write-Log -Message "Uninstall path:$uninstallerPath" -Source 'Pre-Installation' -LogType 'CMTrace'
 
-						## Uninstalls previous versions
+				## Uninstalls previous versions
+				Write-Log -Message "Checking to see if $uninstallerPath exists..." -Source 'Pre-Installation' -LogType 'CMTrace'
 				If ( Test-Path $uninstallerPath) {
 					#Different uninstaller input file that identifies a previous version log file
+					Write-Log -Message "Attempting to run uninstaller..." -Source 'Pre-Installation' -LogType 'CMTrace'
 					Execute-Process -Path $uninstallerString -Parameters "-inputFile `"$dirSupportFiles\uninstaller_input.txt`"" -PassThru
+					Write-Log -Message "Deleting leftover files in $uninstallerPath..." -Source 'Pre-Installation' -LogType 'CMTrace'
 					Get-ChildItem -Path $uninstallerPath -Recurse | Remove-Item -force -recurse
+					Write-Log -Message "Deleting directory: $uninstallerPath..." -Source 'Pre-Installation' -LogType 'CMTrace'
 					Remove-Item $uninstallerPath -Force
+					Write-Log -Message "$uninstsallerPath successfully deleted." -Source 'Pre-Installation' -LogType 'CMTrace'
 				}
 			}
 		}
 
 		#Exit-Script -ExitCode 0
 		## Adds path to put license file into before install
+		Write-Log -Message "Checking to see if license directory exists..." -Source 'Pre-Installation' -LogType 'CMTrace'
 		If (-not (Test-Path "$envProgramFiles\MATLAB\R2022a")) {
+			Write-Log -Message "Directory does not exist...Creating new directory for license file..." -Source 'Pre-Installation' -LogType 'CMTrace'
 			New-Item -Path "$envProgramFiles\MATLAB\R2022a" -ItemType "directory"
 		}
-
+		Write-Log -Message "Importing license file..." -Source 'Pre-Installation' -LogType 'CMTrace'
 		Copy-Item -Path "$dirSupportFiles\license.dat" -Destination "$envProgramFiles\MATLAB\R2022a\license.dat"
+		Write-Log -Message "License file imported successfully." -Source 'Pre-Installation' -LogType 'CMTrace'
 
 		##*===============================================
 		##* INSTALLATION
@@ -169,6 +177,7 @@ Try {
 		}
 
 		## <Perform Installation tasks here>
+		Write-Log -Message "Attempting to run installer..." -Source 'Installation' -LogType 'CMTrace'
 		$exitCode = Execute-Process -Path "$dirFiles\setup.exe" -Parameters "-inputFile `"$dirSupportFiles\installer_input.txt`" -activationPropertiesFile `"$dirSupportFiles\activate.ini`"" -WindowStyle "Hidden" -PassThru
 		If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
@@ -179,10 +188,11 @@ Try {
 		[string]$installPhase = 'Post-Installation'
 
 		## <Perform Post-Installation tasks here>
+		Write-Log -Message "Updating firewall rules..." -Source 'Post-Installation' -LogType 'CMTrace'
 		##Remove-File -Path "$envProgramData\Microsoft\Windows\Start Menu\Programs\MATLAB r2021a\Activate MATLAB r2021a.lnk"
 		##Remove-File -Path "$envProgramData\Microsoft\Windows\Start Menu\Programs\MATLAB r2021a\Deactivate MATLAB r2021a.lnk"
-		Execute-Process -Path "$envSystem32Directory\netsh.exe" -Parameters "advfirewall firewall add rule name=`"MATLAB R2021a`" dir=in action=allow program=`"C:\program files\matlab\r2021a\bin\win64\matlab.exe`" description=`"MATLAB r2021a`" enable=yes profile=any protocol=tcp edge=deferuser" -WindowStyle "Hidden"
-		Execute-Process -Path "$envSystem32Directory\netsh.exe" -Parameters "advfirewall firewall add rule name=`"MATLAB R2021a`" dir=in action=allow program=`"C:\program files\matlab\r2021a\bin\win64\matlab.exe`" description=`"MATLAB r2021a`" enable=yes profile=any protocol=udp edge=deferuser" -WindowStyle "Hidden"
+		Execute-Process -Path "$envSystem32Directory\netsh.exe" -Parameters "advfirewall firewall add rule name=`"MATLAB R2022a`" dir=in action=allow program=`"C:\program files\matlab\r2022a\bin\win64\matlab.exe`" description=`"MATLAB r2022a`" enable=yes profile=any protocol=tcp edge=deferuser" -WindowStyle "Hidden"
+		Execute-Process -Path "$envSystem32Directory\netsh.exe" -Parameters "advfirewall firewall add rule name=`"MATLAB R2022a`" dir=in action=allow program=`"C:\program files\matlab\r2022a\bin\win64\matlab.exe`" description=`"MATLAB r2022a`" enable=yes profile=any protocol=udp edge=deferuser" -WindowStyle "Hidden"
 
 		## Display a message at the end of the install
 		If (-not $useDefaultMsi) { Show-InstallationPrompt -Message "$appName $appVersion has been successfully installed." -ButtonRightText 'OK' -Icon Information -NoWait }
@@ -215,13 +225,18 @@ Try {
 		}
 
 		# <Perform Uninstallation tasks here>
+		Write-Log -Message "Attempting to run uninstaller..." -Source 'Uninstallation' -LogType 'CMTrace'
 		$exitCode = Execute-Process -Path "$envProgramFiles\MATLAB\r2022a\uninstall\bin\win64\uninstall.exe" -Parameters "-inputFile `"$dirSupportFiles\uninstaller_input.txt`"" -PassThru
 		If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) {
                 $mainExitCode = $exitCode.ExitCode
 		}
+		Write-Log -Message "Checking for leftover files and directories..." -Source 'Uninstallation' -LogType 'CMTrace'
 		If ( Test-Path "$envProgramFiles\MATLAB\r2022a") {
+				Write-Log -Message "Deleting leftover files..." -Source 'Pre-Installation' -LogType 'CMTrace'
 				Get-ChildItem -Path "$envProgramFiles\MATLAB\r2022a" -Recurse | Remove-Item -force -recurse
+				Write-Log -Message "Deleting leftover directory..." -Source 'Pre-Installation' -LogType 'CMTrace'
 				Remove-Item "$envProgramFiles\MATLAB\r2022a" -Force
+				Write-Log -Message "Files successfully deleted." -Source 'Pre-Installation' -LogType 'CMTrace'
 		}
 
 		##*===============================================
@@ -283,8 +298,8 @@ Catch {
 # SIG # Begin signature block
 # MIIU9wYJKoZIhvcNAQcCoIIU6DCCFOQCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUfrOQmxI6NR0xiGNdSnoR3m2c
-# lqmgghHXMIIFbzCCBFegAwIBAgIQSPyTtGBVlI02p8mKidaUFjANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUvtG4tezb36EU6VNg0CtT9gmF
+# hoWgghHXMIIFbzCCBFegAwIBAgIQSPyTtGBVlI02p8mKidaUFjANBgkqhkiG9w0B
 # AQwFADB7MQswCQYDVQQGEwJHQjEbMBkGA1UECAwSR3JlYXRlciBNYW5jaGVzdGVy
 # MRAwDgYDVQQHDAdTYWxmb3JkMRowGAYDVQQKDBFDb21vZG8gQ0EgTGltaXRlZDEh
 # MB8GA1UEAwwYQUFBIENlcnRpZmljYXRlIFNlcnZpY2VzMB4XDTIxMDUyNTAwMDAw
@@ -384,13 +399,13 @@ Catch {
 # ZSBTaWduaW5nIENBIFIzNgIRAKVN33D73PFMVIK48rFyyjEwCQYFKw4DAhoFAKB4
 # MBgGCisGAQQBgjcCAQwxCjAIoAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQB
 # gjcCAQQwHAYKKwYBBAGCNwIBCzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkE
-# MRYEFFavs2+y7t2T59FFd7vcWTI3e8A3MA0GCSqGSIb3DQEBAQUABIIBgE3QNDGB
-# 9ScUdcfLTJwtvox9a76i+q2SRutBVcPhNXIR5MLyB/l/CmhbHUD9854xAvhq2DTa
-# 7GZ3laxRO6H1cJf+bkdAflSYdNrax/RPAa3//5J+mtw569d+rzbCVQizJ3iqc5w/
-# +yglEj/sYzvZyo20MlH7gUFQv7uWXOMaZlQFBZhl+6Q0ooi+5Nc+VuWXD72jXeb2
-# wfTWSVCZqmcebcolHPEDXHgL/m51iljnYGPocqdQsP1YO/uHQ29mkMCG4W8lUZpU
-# YmewMym/WglYKqXKmSyBW9LQeTtmhVZNipMEOuJNw5EZGH3eFRmeDl0eYuXdfhiA
-# ZlDwbNlou2JjaI6PVW5TMSDfqrYAdzzQJ1ANJnSUAQOFnc9TSgeGgBidhBUwudY1
-# 078n7skUjoKXRXoyyyqshBud6OpotcKenls0i9aTe+klRh1/Kcr6Bz2Njvkeiv8E
-# iWJ79kLyRWeEYvlkm6zmVlGzoIKfUgikUF4nMYrhnv4y83cnLGxMgitXRA==
+# MRYEFBKQhYQjFibeVQkBNHUILIt8Jng+MA0GCSqGSIb3DQEBAQUABIIBgA1CcsuS
+# ylaQwA6N9mt1g8EO4qW8sZ8ZIdXsfuvOIKjQfr832atOS7HX4ysxadVJM05CfG/g
+# hf7utNdYW5ihDi+LbeP3m/fDYzReq+fBZkThI1vYnroeZsEzXExjMueM32FJsrsf
+# zwwGOP0T40r10MTmPc1s4BgVjbDpur4KDEl1S2queR4iu/B6QgpVM+O5UB/4P0JS
+# Z74oNM4RUkk000IrfcPNUgN0NKyanzhNvPilxgGpfbTj7yVX5aZyT6pOgm3Msf7J
+# 1tSh3JhfKtfTJxK04yr2C7EDEevkTmyWaaq0n4veu/ghrXY+es8B6lglsMqIMC7w
+# 5zVdh2X3B3Bpn+B3p5tHKO+d44S7DK+v6rJkyR8h/fvkPGJkzx9xhdZVXT5jjuoC
+# pLrmQRHzZoIF/9eK3/9Bs5kDXXSpHe9H6m7yvBafsJk8aNq2raCMrwmiBu0ssUVh
+# XKjHPWIiqmLSQTwfgjp9XJr1GWWe179ZcBjwKbh2QMHNcY46VO8rOP+07Q==
 # SIG # End signature block
