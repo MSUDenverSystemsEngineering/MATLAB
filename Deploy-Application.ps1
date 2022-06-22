@@ -131,28 +131,40 @@ Try {
 		ForEach($installedApplication in $applicationList) {
 			$installedApplicationList = Get-InstalledApplication -Name $installedApplication
 			ForEach($application in $installedApplicationList) {
-				$uninstallString = $application.UninstallString
-				Write-Log -Message "Uninstall string: $uninstallString" -Source 'Pre-Installation' -LogType 'CMTrace'
-				$uninstallerString = $uninstallString.Substring(0, $uninstallString.lastIndexOf('.exe')+4)
-				$uninstallerPath = $uninstallString.Substring($uninstallerString.length +1)
-
-				Write-Log -Message "Uninstall string:$uninstallerString" -Source 'Pre-Installation' -LogType 'CMTrace'
-				Write-Log -Message "Uninstall path:$uninstallerPath" -Source 'Pre-Installation' -LogType 'CMTrace'
-
-				## Uninstalls previous versions
-				Write-Log -Message "Checking to see if $uninstallerPath exists..." -Source 'Pre-Installation' -LogType 'CMTrace'
-				If ( Test-Path $uninstallerPath) {
-					#Different uninstaller input file that identifies a previous version log file
-					Write-Log -Message "Attempting to run uninstaller..." -Source 'Pre-Installation' -LogType 'CMTrace'
-					Execute-Process -Path $uninstallerString -Parameters "-inputFile `"$dirSupportFiles\uninstaller_input.txt`"" -PassThru
-					Write-Log -Message "Deleting leftover files in $uninstallerPath..." -Source 'Pre-Installation' -LogType 'CMTrace'
-					Get-ChildItem -Path $uninstallerPath -Recurse | Remove-Item -force -recurse
-					Write-Log -Message "Deleting directory: $uninstallerPath..." -Source 'Pre-Installation' -LogType 'CMTrace'
 					Remove-Item $uninstallerPath -Force
-					Write-Log -Message "$uninstsallerPath successfully deleted." -Source 'Pre-Installation' -LogType 'CMTrace'
+				if($application.UninstallString) {
+					$uninstallString = $application.UninstallString
+					Write-Log -Message "Uninstall string: $uninstallString" -Source 'Pre-Installation' -LogType 'CMTrace'
+					if($uninstallString.contains("MATLAB") -and $uninstallString.contains("uninstall.exe")) {
+						$uninstallerString = $uninstallString.Substring(0, $uninstallString.lastIndexOf('.exe')+4)
+						$uninstallerPath = $uninstallString.Substring($uninstallerString.length +1)
+						Write-Log -Message "Uninstall string:$uninstallerString" -Source 'Pre-Installation' -LogType 'CMTrace'
+						Write-Log -Message "Uninstall path:$uninstallerPath" -Source 'Pre-Installation' -LogType 'CMTrace'
+
+						## Uninstalls previous versions
+						Write-Log -Message "Checking to see if $uninstallerPath exists..." -Source 'Pre-Installation' -LogType 'CMTrace'
+						If ( Test-Path $uninstallerPath) {
+							#Different uninstaller input file that identifies a previous version log file
+							Write-Log -Message "Attempting to run uninstaller..." -Source 'Pre-Installation' -LogType 'CMTrace'
+							Execute-Process -Path $uninstallerString -Parameters "-inputFile `"$dirSupportFiles\uninstaller_input.txt`"" -PassThru
+							Write-Log -Message "Deleting leftover files in $uninstallerPath..." -Source 'Pre-Installation' -LogType 'CMTrace'
+							Get-ChildItem -Path $uninstallerPath -Recurse | Remove-Item -force -recurse
+							Write-Log -Message "Deleting directory: $uninstallerPath..." -Source 'Pre-Installation' -LogType 'CMTrace'
+							Remove-Item $uninstallerPath -Force
+							Write-Log -Message "$uninstallerPath successfully deleted." -Source 'Pre-Installation' -LogType 'CMTrace'
+						}
+					}
+					else {
+						Write-Log -Message "MATLAB and uninstall.exe were not found in the provided uninstall string" -Source 'Pre-Installation' -LogType 'CMTrace'
+					}
+				}
+				else {
+					Write-Log -Message "No uninstall string found." -Source 'Pre-Installation' -LogType 'CMTrace'
+
 				}
 			}
 		}
+
 
 		#Exit-Script -ExitCode 0
 		## Adds path to put license file into before install
@@ -298,8 +310,8 @@ Catch {
 # SIG # Begin signature block
 # MIIU9wYJKoZIhvcNAQcCoIIU6DCCFOQCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUvtG4tezb36EU6VNg0CtT9gmF
-# hoWgghHXMIIFbzCCBFegAwIBAgIQSPyTtGBVlI02p8mKidaUFjANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUN87nkd4swuYOgpYXDGClfhkS
+# oMWgghHXMIIFbzCCBFegAwIBAgIQSPyTtGBVlI02p8mKidaUFjANBgkqhkiG9w0B
 # AQwFADB7MQswCQYDVQQGEwJHQjEbMBkGA1UECAwSR3JlYXRlciBNYW5jaGVzdGVy
 # MRAwDgYDVQQHDAdTYWxmb3JkMRowGAYDVQQKDBFDb21vZG8gQ0EgTGltaXRlZDEh
 # MB8GA1UEAwwYQUFBIENlcnRpZmljYXRlIFNlcnZpY2VzMB4XDTIxMDUyNTAwMDAw
@@ -399,13 +411,13 @@ Catch {
 # ZSBTaWduaW5nIENBIFIzNgIRAKVN33D73PFMVIK48rFyyjEwCQYFKw4DAhoFAKB4
 # MBgGCisGAQQBgjcCAQwxCjAIoAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQB
 # gjcCAQQwHAYKKwYBBAGCNwIBCzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkE
-# MRYEFBKQhYQjFibeVQkBNHUILIt8Jng+MA0GCSqGSIb3DQEBAQUABIIBgA1CcsuS
-# ylaQwA6N9mt1g8EO4qW8sZ8ZIdXsfuvOIKjQfr832atOS7HX4ysxadVJM05CfG/g
-# hf7utNdYW5ihDi+LbeP3m/fDYzReq+fBZkThI1vYnroeZsEzXExjMueM32FJsrsf
-# zwwGOP0T40r10MTmPc1s4BgVjbDpur4KDEl1S2queR4iu/B6QgpVM+O5UB/4P0JS
-# Z74oNM4RUkk000IrfcPNUgN0NKyanzhNvPilxgGpfbTj7yVX5aZyT6pOgm3Msf7J
-# 1tSh3JhfKtfTJxK04yr2C7EDEevkTmyWaaq0n4veu/ghrXY+es8B6lglsMqIMC7w
-# 5zVdh2X3B3Bpn+B3p5tHKO+d44S7DK+v6rJkyR8h/fvkPGJkzx9xhdZVXT5jjuoC
-# pLrmQRHzZoIF/9eK3/9Bs5kDXXSpHe9H6m7yvBafsJk8aNq2raCMrwmiBu0ssUVh
-# XKjHPWIiqmLSQTwfgjp9XJr1GWWe179ZcBjwKbh2QMHNcY46VO8rOP+07Q==
+# MRYEFBYYJtsexmZLsZvH05Ze8JjZjMKpMA0GCSqGSIb3DQEBAQUABIIBgJxMW7zr
+# IvvVJo9L8ogMhE4quaMJo6fSxvuZI070i5F/r3suiW3+TLpyfHr+jM9MSGvS1N4U
+# 0j6/H5FqUnr4QN7V6MxOEs9zVnWkSEl6hIuNpOgkQE2i9TVqnM8W+gilp3L8L1VE
+# 1lwxX/1/srAD3iBw+7+RRz4urzxm9ti9cDTo8lrVLRk+2TNzmYtZ6HokSOvJdXh3
+# LwOKF7BCBcI0wUosRV8Z70XjPjxRU5V7pbM//X1OgTdZO1utOfVQjD+GGat/5iNC
+# /UWfY+tnwdy0PJ7Cq9xYKYgzGPD7zqATJ+4DvsjSR9LuDg4bscH+21pmx9AnkIdu
+# QzYcw0Sz74rZICsrIG/rb9REcPlYuHarNIgbV7kYKF/5t1xtyezXykTiB0i+2rfy
+# +m0olt5Xmq8G7DDTPk+IFnFTObzBEfy8VLwq1/BI5OCFbUtY/PBqrVjAA5qG85qd
+# A/78w7ZSth//yEiDn17IMCRRZ0PKLvgk40//9z4Fe36Lc1vlI0ApanL57Q==
 # SIG # End signature block
