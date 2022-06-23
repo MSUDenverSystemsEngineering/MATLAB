@@ -131,7 +131,6 @@ Try {
 		ForEach($installedApplication in $applicationList) {
 			$installedApplicationList = Get-InstalledApplication -Name $installedApplication
 			ForEach($application in $installedApplicationList) {
-					Remove-Item $uninstallerPath -Force
 				if($application.UninstallString) {
 					$uninstallString = $application.UninstallString
 					Write-Log -Message "Uninstall string: $uninstallString" -Source 'Pre-Installation' -LogType 'CMTrace'
