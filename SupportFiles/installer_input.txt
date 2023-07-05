@@ -31,7 +31,7 @@
 ## Set the desired value for destinationFolder and
 ## uncomment the line.
 
-destinationFolder=C:\Program Files\MATLAB\R2022a
+destinationFolder=C:\Program Files\MATLAB\R2023a
 
 ##
 ## SPECIFY FILE INSTALLATION KEY
@@ -42,7 +42,7 @@ destinationFolder=C:\Program Files\MATLAB\R2022a
 ## uncomment the line.
 ##
 
-fileInstallationKey=22747-41256-22001-55006-32237-28800-20782 
+fileInstallationKey=07185-03834-55148-04515-01275-36997-56950-50286-04227
 
 ##
 ## ACCEPT LICENSE AGREEMENT
@@ -71,7 +71,7 @@ agreeToLicense=yes
 ## Set the desired value for outputFile and
 ## uncomment the line.
 
-outputFile=C:\Windows\Logs\Software\matlabr2022a_install.log
+outputFile=C:\Windows\Logs\Software\matlabr2023a_install.log
 
 ##
 ## Enable Login Named User licensing
@@ -107,7 +107,7 @@ improveMATLAB=yes
 ## Set the desired value for licensePath and
 ## uncomment the line.
 
-licensePath=C:\Program Files\MATLAB\R2022a\license.dat
+licensePath=C:\Program Files\MATLAB\R2023a\license.dat
 
 ########## End: Options for Network License Types #########
 
@@ -194,6 +194,7 @@ createAccelTask=false
 #product.Automated_Driving_Toolbox
 #product.Bioinformatics_Toolbox
 #product.Bluetooth_Toolbox
+#product.C2000_Microcontroller_Blockset
 #product.Communications_Toolbox
 #product.Computer_Vision_Toolbox
 #product.Control_System_Toolbox
@@ -232,8 +233,10 @@ createAccelTask=false
 #product.MATLAB_Parallel_Server
 #product.MATLAB_Production_Server
 #product.MATLAB_Report_Generator
+#product.MATLAB_Test
 #product.MATLAB_Web_App_Server
 #product.Mapping_Toolbox
+#product.Medical_Imaging_Toolbox
 #product.Mixed-Signal_Blockset
 #product.Model_Predictive_Control_Toolbox
 #product.Model-Based_Calibration_Toolbox
@@ -267,6 +270,7 @@ createAccelTask=false
 #product.SimBiology
 #product.SimEvents
 #product.Simscape
+#product.Simscape_Battery
 #product.Simscape_Driveline
 #product.Simscape_Electrical
 #product.Simscape_Fluids

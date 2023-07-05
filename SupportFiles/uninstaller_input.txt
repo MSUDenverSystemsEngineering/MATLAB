@@ -90,6 +90,7 @@ prefs=false
 #product.Automated_Driving_Toolbox
 #product.Bioinformatics_Toolbox
 #product.Bluetooth_Toolbox
+#product.C2000_Microcontroller_Blockset
 #product.Communications_Toolbox
 #product.Computer_Vision_Toolbox
 #product.Control_System_Toolbox
@@ -128,8 +129,10 @@ prefs=false
 #product.MATLAB_Parallel_Server
 #product.MATLAB_Production_Server
 #product.MATLAB_Report_Generator
+#product.MATLAB_Test
 #product.MATLAB_Web_App_Server
 #product.Mapping_Toolbox
+#product.Medical_Imaging_Toolbox
 #product.Mixed-Signal_Blockset
 #product.Model_Predictive_Control_Toolbox
 #product.Model-Based_Calibration_Toolbox
@@ -163,6 +166,7 @@ prefs=false
 #product.SimBiology
 #product.SimEvents
 #product.Simscape
+#product.Simscape_Battery
 #product.Simscape_Driveline
 #product.Simscape_Electrical
 #product.Simscape_Fluids
@@ -198,4 +202,3 @@ prefs=false
 #product.Wavelet_Toolbox
 #product.Wireless_HDL_Toolbox
 #product.Wireless_Testbench
-
