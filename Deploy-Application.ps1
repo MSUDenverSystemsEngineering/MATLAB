@@ -67,13 +67,13 @@ Try {
 	## Variables: Application
 	[string]$appVendor = 'Mathworks'
 	[string]$appName = 'MATLAB'
-	[string]$appVersion = '2023a'
+	[string]$appVersion = '2025b'
 	[string]$appArch = 'x64'
 	[string]$appLang = 'EN'
 	[string]$appRevision = '01'
 	[string]$appScriptVersion = '1.0.15'
-	[string]$appScriptDate = '05/01/2023'
-	[string]$appScriptAuthor = 'Steve Patterson'
+	[string]$appScriptDate = '01/16/2025'
+	[string]$appScriptAuthor = 'Will Jarvill'
 	##*===============================================
 	## Variables: Install Titles (Only set here to override defaults set by the toolkit)
 	[string]$installName = ''
@@ -167,14 +167,14 @@ Try {
 
 		#Exit-Script -ExitCode 0
 		## Adds path to put license file into before install
-		Write-Log -Message "Checking to see if license directory exists..." -Source 'Pre-Installation' -LogType 'CMTrace'
-		If (-not (Test-Path "$envProgramFiles\MATLAB\R2023a")) {
-			Write-Log -Message "Directory does not exist...Creating new directory for license file..." -Source 'Pre-Installation' -LogType 'CMTrace'
-			New-Item -Path "$envProgramFiles\MATLAB\R2023a" -ItemType "directory"
-		}
-		Write-Log -Message "Importing license file..." -Source 'Pre-Installation' -LogType 'CMTrace'
-		Copy-Item -Path "$dirSupportFiles\license.dat" -Destination "$envProgramFiles\MATLAB\R2023a\license.dat"
-		Write-Log -Message "License file imported successfully." -Source 'Pre-Installation' -LogType 'CMTrace'
+		#Write-Log -Message "Checking to see if license directory exists..." -Source 'Pre-Installation' -LogType 'CMTrace'
+		#If (-not (Test-Path "$envProgramFiles\MATLAB\R2025a")) {
+		#	Write-Log -Message "Directory does not exist...Creating new directory for license file..." -Source 'Pre-Installation' -LogType 'CMTrace'
+		#	New-Item -Path "$envProgramFiles\MATLAB\R2023a" -ItemType "directory"
+		#}
+		#Write-Log -Message "Importing license file..." -Source 'Pre-Installation' -LogType 'CMTrace'
+		#Copy-Item -Path "$dirSupportFiles\license.dat" -Destination "$envProgramFiles\MATLAB\R2025a\license.dat"
+		#Write-Log -Message "License file imported successfully." -Source 'Pre-Installation' -LogType 'CMTrace'
 
 		##*===============================================
 		##* INSTALLATION
@@ -202,8 +202,8 @@ Try {
 		Write-Log -Message "Updating firewall rules..." -Source 'Post-Installation' -LogType 'CMTrace'
 		##Remove-File -Path "$envProgramData\Microsoft\Windows\Start Menu\Programs\MATLAB r2021a\Activate MATLAB r2021a.lnk"
 		##Remove-File -Path "$envProgramData\Microsoft\Windows\Start Menu\Programs\MATLAB r2021a\Deactivate MATLAB r2021a.lnk"
-		Execute-Process -Path "$envSystem32Directory\netsh.exe" -Parameters "advfirewall firewall add rule name=`"MATLAB R2023a`" dir=in action=allow program=`"C:\program files\matlab\r2023a\bin\win64\matlab.exe`" description=`"MATLAB r2023a`" enable=yes profile=any protocol=tcp edge=deferuser" -WindowStyle "Hidden"
-		Execute-Process -Path "$envSystem32Directory\netsh.exe" -Parameters "advfirewall firewall add rule name=`"MATLAB R2023a`" dir=in action=allow program=`"C:\program files\matlab\r2023a\bin\win64\matlab.exe`" description=`"MATLAB r2023a`" enable=yes profile=any protocol=udp edge=deferuser" -WindowStyle "Hidden"
+		Execute-Process -Path "$envSystem32Directory\netsh.exe" -Parameters "advfirewall firewall add rule name=`"MATLAB R2025b`" dir=in action=allow program=`"C:\program files\matlab\r2025b\bin\win64\matlab.exe`" description=`"MATLAB r2025b`" enable=yes profile=any protocol=tcp edge=deferuser" -WindowStyle "Hidden"
+		Execute-Process -Path "$envSystem32Directory\netsh.exe" -Parameters "advfirewall firewall add rule name=`"MATLAB R2025b`" dir=in action=allow program=`"C:\program files\matlab\r2025b\bin\win64\matlab.exe`" description=`"MATLAB r2025b`" enable=yes profile=any protocol=udp edge=deferuser" -WindowStyle "Hidden"
 
 		## Display a message at the end of the install
 		If (-not $useDefaultMsi) { Show-InstallationPrompt -Message "$appName $appVersion has been successfully installed." -ButtonRightText 'OK' -Icon Information -NoWait }
@@ -237,16 +237,16 @@ Try {
 
 		# <Perform Uninstallation tasks here>
 		Write-Log -Message "Attempting to run uninstaller..." -Source 'Uninstallation' -LogType 'CMTrace'
-		$exitCode = Execute-Process -Path "$envProgramFiles\MATLAB\r2023a\uninstall\bin\win64\uninstall.exe" -Parameters "-inputFile `"$dirSupportFiles\uninstaller_input.txt`"" -PassThru
+		$exitCode = Execute-Process -Path "$envProgramFiles\MATLAB\r2025b\uninstall\bin\win64\uninstall.exe" -Parameters "-inputFile `"$dirSupportFiles\uninstaller_input.txt`"" -PassThru
 		If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) {
                 $mainExitCode = $exitCode.ExitCode
 		}
 		Write-Log -Message "Checking for leftover files and directories..." -Source 'Uninstallation' -LogType 'CMTrace'
-		If ( Test-Path "$envProgramFiles\MATLAB\r2023a") {
+		If ( Test-Path "$envProgramFiles\MATLAB\r2025b") {
 				Write-Log -Message "Deleting leftover files..." -Source 'Pre-Installation' -LogType 'CMTrace'
-				Get-ChildItem -Path "$envProgramFiles\MATLAB\r2023a" -Recurse | Remove-Item -force -recurse
+				Get-ChildItem -Path "$envProgramFiles\MATLAB\r2025b" -Recurse | Remove-Item -force -recurse
 				Write-Log -Message "Deleting leftover directory..." -Source 'Pre-Installation' -LogType 'CMTrace'
-				Remove-Item "$envProgramFiles\MATLAB\r2023a" -Force
+				Remove-Item "$envProgramFiles\MATLAB\r2025b" -Force
 				Write-Log -Message "Files successfully deleted." -Source 'Pre-Installation' -LogType 'CMTrace'
 		}
 
