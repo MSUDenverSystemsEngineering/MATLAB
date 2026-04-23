@@ -67,12 +67,12 @@ Try {
 	## Variables: Application
 	[string]$appVendor = 'Mathworks'
 	[string]$appName = 'MATLAB'
-	[string]$appVersion = '2025b'
+	[string]$appVersion = '2026a'
 	[string]$appArch = 'x64'
 	[string]$appLang = 'EN'
 	[string]$appRevision = '01'
 	[string]$appScriptVersion = '1.0.15'
-	[string]$appScriptDate = '01/16/2025'
+	[string]$appScriptDate = '04/23/2026'
 	[string]$appScriptAuthor = 'Will Jarvill'
 	##*===============================================
 	## Variables: Install Titles (Only set here to override defaults set by the toolkit)
@@ -202,8 +202,8 @@ Try {
 		Write-Log -Message "Updating firewall rules..." -Source 'Post-Installation' -LogType 'CMTrace'
 		##Remove-File -Path "$envProgramData\Microsoft\Windows\Start Menu\Programs\MATLAB r2021a\Activate MATLAB r2021a.lnk"
 		##Remove-File -Path "$envProgramData\Microsoft\Windows\Start Menu\Programs\MATLAB r2021a\Deactivate MATLAB r2021a.lnk"
-		Execute-Process -Path "$envSystem32Directory\netsh.exe" -Parameters "advfirewall firewall add rule name=`"MATLAB R2025b`" dir=in action=allow program=`"C:\program files\matlab\r2025b\bin\win64\matlab.exe`" description=`"MATLAB r2025b`" enable=yes profile=any protocol=tcp edge=deferuser" -WindowStyle "Hidden"
-		Execute-Process -Path "$envSystem32Directory\netsh.exe" -Parameters "advfirewall firewall add rule name=`"MATLAB R2025b`" dir=in action=allow program=`"C:\program files\matlab\r2025b\bin\win64\matlab.exe`" description=`"MATLAB r2025b`" enable=yes profile=any protocol=udp edge=deferuser" -WindowStyle "Hidden"
+		Execute-Process -Path "$envSystem32Directory\netsh.exe" -Parameters "advfirewall firewall add rule name=`"MATLAB R2026a`" dir=in action=allow program=`"C:\program files\matlab\r2026a\bin\win64\matlab.exe`" description=`"MATLAB r2026a`" enable=yes profile=any protocol=tcp edge=deferuser" -WindowStyle "Hidden"
+		Execute-Process -Path "$envSystem32Directory\netsh.exe" -Parameters "advfirewall firewall add rule name=`"MATLAB R2026a`" dir=in action=allow program=`"C:\program files\matlab\r2026a\bin\win64\matlab.exe`" description=`"MATLAB r2026a`" enable=yes profile=any protocol=udp edge=deferuser" -WindowStyle "Hidden"
 
 		## Display a message at the end of the install
 		If (-not $useDefaultMsi) { Show-InstallationPrompt -Message "$appName $appVersion has been successfully installed." -ButtonRightText 'OK' -Icon Information -NoWait }
@@ -237,16 +237,16 @@ Try {
 
 		# <Perform Uninstallation tasks here>
 		Write-Log -Message "Attempting to run uninstaller..." -Source 'Uninstallation' -LogType 'CMTrace'
-		$exitCode = Execute-Process -Path "$envProgramFiles\MATLAB\r2025b\uninstall\bin\win64\uninstall.exe" -Parameters "-inputFile `"$dirSupportFiles\uninstaller_input.txt`"" -PassThru
+		$exitCode = Execute-Process -Path "$envProgramFiles\MATLAB\r2026a\uninstall\bin\win64\uninstall.exe" -Parameters "-inputFile `"$dirSupportFiles\uninstaller_input.txt`"" -PassThru
 		If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) {
                 $mainExitCode = $exitCode.ExitCode
 		}
 		Write-Log -Message "Checking for leftover files and directories..." -Source 'Uninstallation' -LogType 'CMTrace'
-		If ( Test-Path "$envProgramFiles\MATLAB\r2025b") {
+		If ( Test-Path "$envProgramFiles\MATLAB\r2026a") {
 				Write-Log -Message "Deleting leftover files..." -Source 'Pre-Installation' -LogType 'CMTrace'
-				Get-ChildItem -Path "$envProgramFiles\MATLAB\r2025b" -Recurse | Remove-Item -force -recurse
+				Get-ChildItem -Path "$envProgramFiles\MATLAB\r2026a" -Recurse | Remove-Item -force -recurse
 				Write-Log -Message "Deleting leftover directory..." -Source 'Pre-Installation' -LogType 'CMTrace'
-				Remove-Item "$envProgramFiles\MATLAB\r2025b" -Force
+				Remove-Item "$envProgramFiles\MATLAB\r2026a" -Force
 				Write-Log -Message "Files successfully deleted." -Source 'Pre-Installation' -LogType 'CMTrace'
 		}
 
